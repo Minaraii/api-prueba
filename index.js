@@ -63,6 +63,27 @@ app.post('/api/productos', async (req, res) => {
     }
 });
 
+
+app.put('/api/productos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nombre, precio } = req.body;
+
+        const resultado = await pool.query(
+            'UPDATE productos SET nombre = $1, precio = $2 WHERE id = $3 RETURNING *',
+            [nombre, precio, id]
+        );
+
+        res.json(resultado.rows[0]);
+    } catch (error) {
+        console.error('Error al actualizar producto:', error);
+
+        res.status(500).json({
+            error: 'Error al actualizar producto'
+        });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
