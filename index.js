@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const { Pool } = require('pg');
 require('dotenv').config();
 
 const productosRouter = require('./routes/productos.routes');
+const pool = require('./db/database')
 
 const app = express();
 
@@ -13,23 +13,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/productos', productosRouter);
-
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
-});
-
-pool.query('SELECT * FROM productos', (error, resultado) => {
-    if (error) {
-        console.error('Error consultando productos:', error);
-    } else {
-        console.log('Productos:', resultado.rows);
-    }
-});
-
 
 app.get('/', (req, res) => {
     res.send('Hola desde mi servidor 🚀');
