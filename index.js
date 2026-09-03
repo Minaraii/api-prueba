@@ -3,12 +3,16 @@ const cors = require('cors');
 const { Pool } = require('pg');
 require('dotenv').config();
 
+const productosRouter = require('./routes/productos.routes');
+
 const app = express();
 
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/productos', productosRouter);
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -29,19 +33,6 @@ pool.query('SELECT * FROM productos', (error, resultado) => {
 
 app.get('/', (req, res) => {
     res.send('Hola desde mi servidor 🚀');
-});
-
-app.get('/api/productos', async (req, res) => {
-    try {
-        const resultado = await pool.query('SELECT * FROM productos');
-
-        res.json(resultado.rows);
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.status(500).json({
-            error: 'Error al obtener productos'
-        });
-    }
 });
 
 app.post('/api/productos', async (req, res) => {
