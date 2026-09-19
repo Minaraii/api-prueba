@@ -12,7 +12,7 @@ function App() {
   }, [])
 
   async function cargarProductos() {
-    const respuesta = await fetch('http://localhost:3000/api/productos')
+    const respuesta = await fetch('https://api-prueba-g8rt.onrender.com/api/productos')
     const datos = await respuesta.json()
     setProductos(datos)
   }
@@ -21,8 +21,8 @@ function App() {
     evento.preventDefault()
 
     const url = editandoId
-      ? `http://localhost:3000/api/productos/${editandoId}`
-      : 'http://localhost:3000/api/productos'
+      ? `https://api-prueba-g8rt.onrender.com/api/productos/${editandoId}`
+      : 'https://api-prueba-g8rt.onrender.com/api/productos'
 
     const respuesta = await fetch(url, {
       method: editandoId ? 'PUT' : 'POST',
@@ -51,7 +51,7 @@ function App() {
 
   async function eliminarProducto(id) {
     const respuesta = await fetch(
-      `http://localhost:3000/api/productos/${id}`,
+      `https://api-prueba-g8rt.onrender.com/api/productos/${id}`,
       {
         method: 'DELETE',
       }
